@@ -1,0 +1,155 @@
+drop table Model;
+drop table Brand;
+drop table Dealer;
+drop table customer;
+drop table Vehicle;
+drop table Sale;
+
+ 
+ 
+    create table Brand
+	(bID numeric (3,0),
+	brandName varchar(25),
+	logo BLOB,
+	primary key (bID));
+    
+    insert into Brand values(1, 'Volkswagen', NULL); 
+    insert into Brand values(2, 'Audi', NULL);
+    insert into Brand values(3, 'Lamborghini', NULL);
+    insert into Brand values(4, 'Bentley', NULL);
+    
+    create table Model
+	(mID numeric(3,0),
+    bID numeric(3,0),
+	bodyStyle varchar (20),
+	modelName varchar (20),
+	year numeric(4,0) check (year > 1900 and year <2100),
+	primary key (mID),
+	foreign key (bID) references Brand (bID) on delete set null);
+    
+    insert into model values(10, 1, 'Sedan', 'Jetta', '2015');
+    insert into model values(11, 1, 'Convertible', 'Beatle', '2017');
+    insert into model values(12, 1, 'Hatchback', 'GTI', '2017');
+    insert into model values(13, 2, 'Convertible', 'A3 Cabriolet', '2018');
+    insert into model values(14, 2, 'Convertible', 'A3 Cabriolet', '2017');
+    insert into model values(15, 2, 'SUV', 'E-Tron','2017');
+    insert into model values(16, 3, 'Coupe', 'Aventador S', '2016');
+    insert into model values(17, 3, 'Coupe', 'Huracan', '2016');
+    insert into model values(18, 3, 'Coupe', 'Huracan', '2017');
+    insert into model values(19, 4, 'SUV', 'Bentaya', '2018');
+    insert into model values(20, 4, 'SUV', 'Bentaya', '2016');
+    insert into model values(21, 4, 'Sedan', 'Mulsanne', '2016');
+    
+    create table Dealer (
+	dID numeric(3,0),
+	dealerName varchar(20) not null,
+	dealerAddress varchar(25),
+	primary key (dID));
+    
+    insert into Dealer values(12, 'Robert Smith', '14 Elm St');
+    insert into Dealer values(10, 'Marianne West', '23 Sycamore Rd');
+    insert into Dealer values(13, 'Jeff Stewart', '120 Dogwood St');
+    insert into Dealer values(14, 'Caleb Olson', '14 Elm St');
+    insert into Dealer values(15,'Melissa Snow', '120 Dogwood St');
+    insert into Dealer values(11, 'Tom Peyton', '23 Sycamore Rd');
+    
+    
+    create table Vehicle (
+	VIN varchar(20),
+    mID numeric(3,0),
+    dID numeric(3,0),
+    color varchar(20),
+    engine varchar (20),
+    transmission varchar (20),
+	tagPrice numeric (6,0),
+    isSold Varchar (10),
+    inventoryDate date,
+    manufactureDate date,
+	primary key (VIN),
+	foreign key (mID) references Model  on delete set null,
+    foreign key (dID) references Dealer  on delete set null);
+    
+    insert into Vehicle values('2G4WC582561307533', 10, 12, 'Red','Hybrid', 'Automatic', 27000, 'Yes','12-NOV-2015', '1-JAN-2015');
+    insert into Vehicle values('1GB0KXC83EF104950', 11, 10,'White','Gasoline', 'Manual', 30000, 'Yes', '4-MAR-2017', '28-FEB-2017');
+    insert into Vehicle values('KMHCF35G44U209674', 12, 12, 'Black','Gasoline', 'Manual', 29000, 'Yes', '23-MAY-2017', '23-JAN-2017');
+    insert into Vehicle values('1FAHP35Z94W144050', 13, 13, 'Red', 'Gasoline', 'Automatic', 40000, 'Yes', '14-APR-2018','20-MAR-2018');
+    insert into Vehicle values('1GDM7C1J5WJ528959', 14, 14, 'White', 'Gasoline', 'Automatic', 40000, 'Yes', '12-FEB-2017', '30-NOV-2016');
+    insert into Vehicle values('1GCRCTE03BZ442844', 15, 12, 'Blue', 'Electric', 'Automatic', 78000, 'Yes', '12-DEC-2016','30-JUL-2016');
+    insert into Vehicle values('1FABP2635GF165072', 16, 14, 'Green', 'Gasoline', 'Manual', 425000, 'Yes', '24-SEP-2016', '29-MAR-2016');
+    insert into Vehicle values('1FDNX21P73EB39828', 17, 10, 'Blue', 'Gasoline', 'Manual', 270000, 'Yes', '16-DEC-2016', '15-DEC-2015');
+    insert into Vehicle values('WAUBH54B1YN040836', 18, 15, 'White', 'Gasoline', 'Manual', 270000, 'Yes', '16-DEC-2017', '30-SEP-2017');
+    insert into Vehicle values('2GTGK39N0L1545200', 19, 13, 'Black', 'Gasoline', 'Automatic', 195000, 'Yes', '01-JUN-2018', '01-OCT-2017');
+    insert into Vehicle values('1FTHF36H0GNA21850', 20, 15, 'Gray', 'Gasoline', 'Automatic', 195000, 'Yes','14-AUG-2016', '1-AUG-2016');
+    insert into Vehicle values('2FTEF25F2DCA00173', 21, 14,  'White', 'Gasoline', 'Automatic', 310000, 'Yes', '15-MAY-2016','1-APR-2016');
+    insert into Vehicle values('3FRXF75X97V455560', 17, 12, 'Black', 'Hybrid', 'Manual', 27000,'NO','12-NOV-2015', '11-NOV-2015');
+    insert into Vehicle values('1HGCR2F87DA031923', 15, 15, 'Silver', 'Electric', 'Automatic', 75000,'NO','05-NOV-2018','04-NOV-2017');
+    insert into Vehicle values('1GCEK19T24Z381578', 10, 13, 'Red', 'Hybrid', 'Manual', 30000,'NO','12-DEC-2015','9-JUN-2015');
+    insert into Vehicle values('JTMDK4DV3B5111334', 20, 10, 'Black', 'Gasoline', 'Automatic', 192000,'NO','03-JUN-2018', '05-MAR-2018');
+    insert into Vehicle values('2G4WF55L2R1408750', 18, 15, 'White', 'Gasoline', 'Automatic', 270000,'NO','03-JUN-2018', '10-MAY-2018');
+    insert into Vehicle values('1BAKBCPH7AF212824', 19, 14, 'Gray', 'Gasoline', 'Automatic', 195000, 'Yes', '01-NOV-2017', '01-OCT-2017');
+    insert into Vehicle values('1FTSF30L2XEA84709', 16, 11, 'Red', 'Gasoline', 'Manual', 428000, 'Yes', '24-SEP-2016', '29-MAR-2016');
+    insert into Vehicle values('1HGCP2E73CA168662', 10, 11, 'Blue','Hybrid', 'Manual', 28000, 'Yes','12-NOV-2015', '1-JAN-2015');
+    insert into Vehicle values('1FUYACYB8PL488459', 14, 10, 'Gray', 'Gasoline', 'Automatic', 40000, 'No', '12-FEB-2017', '30-NOV-2016');
+    insert into Vehicle values('1G1BN47H6GX135961', 15, 15, 'Green', 'Electric', 'Automatic', 80000, 'Yes', '12-DEC-2016','30-JUL-2016');
+    insert into Vehicle values('1GB4K1CL1CF115428', 17, 10, 'Red', 'Gasoline', 'Manual', 270000, 'Yes', '16-MAR-2016', '15-DEC-2015');
+    insert into Vehicle values('1GKLRMED3AJ203745', 21, 13, 'Black', 'Gasoline', 'Automatic', 310000, 'Yes', '15-MAY-2016','1-APR-2016');
+  
+    create table Customer
+	(cID numeric(3,0),
+    CustomerName varchar (20),
+	CustomerAddress varchar (25),
+	Phone varchar (20),
+	Gender varchar (20),
+	AnnualIncome numeric(8,2),
+	primary key (cID));
+    
+    insert into Customer values(11, 'Ayrton Senna', ' 767 Beechwood Ave', '859-345-9136', 'Male', 50000);
+    insert into Customer values(12, 'Danica Patrick', '54 Shadow Lane', '859-546-9996', 'Female', 80000);
+    insert into Customer values(13, 'Jeff Gordon', '19 Evergreen Rd', '859-554-2001', 'Male', 70000);
+    insert into Customer values(14, 'Janet Gunthrie', '81 W Michelle St', '859-904-8210', 'Female', 100000);
+    insert into Customer values(15, 'Selena Woods', '199 Kings Rd', '859-188-1279', 'Female', 90000);
+    insert into Customer values(16, 'Ken Williams', '5 Willow Ave', '859-668-5488', 'Male', 100000);
+    insert into Customer values(17, 'Samuel Green', '14 Park Blvd', '859-344-9903', 'Male', 600000);
+    insert into Customer values(18, 'Richard Roberts', '88 Spring St', '859-663-9088', 'Male', 750000);
+    insert into Customer values(19, 'Samantha Fox', '66 Meadow Ave', '859-990-0432', 'Female', 400000);
+    insert into Customer values(20,  'Andrew Simpson', '10 Morgantown Rd', '859-114-0988', 'Male', 300000);
+    insert into Customer values(21,  'Wanda Clarke', '16 Burlington Pike', '859-450-9010', 'Female', 200000); 
+    insert into Customer values(22, 'Samuel Smith', '231 Hanaford Rd', '859-466-5892', 'Male', 300000);
+    insert into Customer values(23, 'June Carter', '80 Eden Rd', '859-430-8091', 'Female', 600000); 
+    insert into Customer values(24, 'Paul Randall', '77 Sweetwater Rd', '859-420-9010', 'Male', 50000); 
+    insert into Customer values(25, 'Randy Harrington', '21 Marco Blvd', '859-980-6700','Male', 120000); 
+    insert into Customer values(26, 'Karen Mars', '45 Blossom St', '859-816-9008', 'Female', 400000); 
+    insert into Customer values(27, 'Miles Rodger', '36 Elm St', '859-455-1020', 'Male', 500000); 
+    
+    create table Sale(
+    VIN varchar(20),
+	dID numeric(3,0),
+    cID numeric(3,0),
+    SoldPrice numeric(6,0),
+    SoldDate date, 
+	primary key (VIN),
+	foreign key (dID) references Dealer on delete set null,
+    foreign key (cID) references Customer on delete set null);
+    
+    insert into Sale values('2G4WC582561307533', 12, 11, 25000, '01-JAN-2016');
+    insert into Sale values('1GB0KXC83EF104950', 10, 12, 28500, '19-JUL-2017');
+    insert into Sale values('KMHCF35G44U209674', 12, 13, 25000, '05-OCT-2017');
+    insert into Sale values('1FAHP35Z94W144050', 13, 14, 38500, '04-JUL-2018');
+    insert into Sale values('1GDM7C1J5WJ528959', 14, 15, 39000, '04-JUN-2017');
+    insert into Sale values('1GCRCTE03BZ442844', 12, 16, 77500, '10-JUN-2018');
+    insert into Sale values('1FABP2635GF165072', 14, 17, 415000, '20-JAN-2017');
+    insert into Sale values('1FDNX21P73EB39828', 10, 18, 250000, '07-MAR-2018');
+    insert into Sale values('WAUBH54B1YN040836', 15, 19, 240000, '08-JUN-2018');
+    insert into Sale values('2GTGK39N0L1545200', 13, 20, 190000, '19-DEC-2018');
+    insert into Sale values('1FTHF36H0GNA21850', 15, 21, 189900, '23-NOV-2016');
+    insert into Sale values('2FTEF25F2DCA00173', 14, 18, 295000, '19-Dec-2017');
+    insert into Sale values('1BAKBCPH7AF212824', 14, 22, 191000, '24-NOV-2017'); 
+    insert into Sale values('1FTSF30L2XEA84709', 11, 23, 420000, '23-OCT-2017'); 
+    insert into Sale values('1HGCP2E73CA168662', 11, 24, 26000, '21-JUN-2016'); 
+    insert into Sale values('1G1BN47H6GX135961', 15, 25, 78000, '25-MAR-2017'); 
+    insert into Sale values('1GB4K1CL1CF115428', 10, 26, 265000, '01-APR-2016');
+    insert into Sale values('1GKLRMED3AJ203745', 13, 27, 300000, '14-DEC-2016');
+    
+    commit; 
+
+ 

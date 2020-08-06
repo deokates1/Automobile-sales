@@ -1,0 +1,126 @@
+• Suppose that it is found that manual transmission systems produced between two given dates are defective. Find the VIN of each car containing such a transmission and the customer to which it was sold; the vehicle production date should be in the interval when the defective transmissions were produced.
+Select V.VIN, C.CustomerName
+From vehicle V, sale S, customer C
+where V.VIN = S.VIN and S.cID = C.cID and transmission = 'Manual'
+and manufactureDate between '01-JAN-2017' and '01-MAR-2017';
+
+VIN                  CUSTOMERNAME        
+-------------------- --------------------
+1GB0KXC83EF104950    Danica Patrick      
+KMHCF35G44U209674    Jeff Gordon         
+
+• Show sales trends for various brands over the past 3 years, by year, gender of the buyer, and by income range. 
+with IncomeRange as(
+Select
+Case 
+when annualIncome between 10000 and 400000 then '10000 and 400000'
+when annualIncome between 400001 and 800000 then '400001 and 800000'
+end as Range
+from Customer) 
+Select extract( year from SoldDate) as Year_Trend, c.gender, i.range as Income_Range, sum(s.soldPrice) as Total_SoldPrice
+From brand b, model m, vehicle v, customer c, sale s, IncomeRange i
+Where m.mid = v.mid and b.bid = m.bid and v.vin = s.vin and solddate between to_date('01-JAN-2016') and to_date('31-DEC-2018')
+Group by extract( year from SoldDate), c.gender, i.range
+order by Year_Trend ASC;
+
+YEAR_TREND GENDER               INCOME_RANGE      TOTAL_SOLDPRICE
+---------- -------------------- ----------------- ---------------
+      2016 Female               10000 and 400000         73336900
+      2016 Female               400001 and 800000        22565200
+      2016 Male                 10000 and 400000        104767000
+      2016 Male                 400001 and 800000        32236000
+      2017 Female               10000 and 400000        135726500
+      2017 Female               400001 and 800000        41762000
+      2017 Male                 10000 and 400000        193895000
+      2017 Male                 400001 and 800000        59660000
+      2018 Female               10000 and 400000         72436000
+      2018 Female               400001 and 800000        22288000
+      2018 Male                 10000 and 400000        103480000
+
+YEAR_TREND GENDER               INCOME_RANGE      TOTAL_SOLDPRICE
+---------- -------------------- ----------------- ---------------
+      2018 Male                 400001 and 800000        31840000
+
+12 rows selected. 
+
+
+• Find the top brand(s) by dollar-amount sold in the past year. 
+with top_brand as
+(Select Brandname, sum(soldprice) as Dollar_Amount 
+from brand B, Model M, Sale S, Vehicle V
+where B.BID = M.BID and M.MID = V.MID and V.VIN = S.VIN
+and SoldDate between '01-JAN-2018' and '31-DEC-2018' 
+group by brandname)
+select brandname
+from top_brand
+where dollar_amount = (select max(dollar_amount) from top_brand);
+
+
+BRANDNAME                
+-------------------------
+Lamborghini
+
+
+• Find the top dealer(s) by dollar-amount sold in the past year. 
+with top_dealer as
+(Select dealername, sum(soldprice) as Dollar_Amount   
+from Dealer D, Model M, Sale S, Vehicle V
+where D.dID = S.dID
+and SoldDate between '01-JAN-2018' and '31-DEC-2018'
+group by dealername)
+select dealername
+from top_dealer
+where dollar_amount = (select max(dollar_amount) from top_dealer);
+
+DEALERNAME          
+--------------------
+Marianne West
+
+• Find the top brand(s) by unit sales in the past year. 
+With unit_sales as
+(Select B.brandname, count(brandname) as Units_Sold
+From brand B, model M, Vehicle V, Sale S
+Where B.BID = M.BID and M.MID = V.MID and V.VIN = S.VIN
+And SoldDate between '01-JAN-2018' and '31-DEC-2018'
+group by brandname)
+select brandname 
+from unit_sales
+where units_sold = (select max(units_sold) from unit_sales); 
+
+
+BRANDNAME                
+-------------------------
+Lamborghini
+Audi
+
+• In what month(s) do convertibles sell best?
+
+With convertible_month as
+(select extract( month from SoldDate) as Month, count(extract( month from SoldDate)) as Convertibles_Sold 
+from Sale S, Model M, Vehicle V
+where M.MID = V.MID and V.VIN = S.VIN and
+bodystyle = 'Convertible' 
+group by extract( month from SoldDate))
+select month
+from convertible_month
+where convertibles_sold = (select max(convertibles_sold) from convertible_month);
+ 
+
+     MONTH
+----------
+         7
+
+• Find the dealer(s) who keep a vehicle in inventory for the longest average time
+With max_diff as 
+(select dealername, avg((solddate - inventorydate)) as difference from dealer D, sale S, Vehicle V
+where D.dID = S.dID and V.VIN = S.VIN
+group by dealername)
+select dealername
+from max_diff
+where difference = (select max(difference) from max_diff);
+
+
+DEALERNAME          
+--------------------
+Tom Peyton
+
