@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+<AnchorPane prefHeight="436.0" prefWidth="1058.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainController">
+   <children>
+      <Pane layoutX="-161.0" layoutY="-132.0" prefHeight="600.0" prefWidth="500.0">
+         <children>
+            <Label layoutX="198.0" layoutY="162.0" text="Top Brand(s) by Dollar Amount" />
+            <Label layoutX="198.0" layoutY="243.0" text="Top Dealer(s) by Dollar Amount" />
+            <Label layoutX="198.0" layoutY="315.0" text="Top Brand by Unit Sales" />
+            <Label layoutX="198.0" layoutY="385.0" text="Months Convertibles Sell Best" />
+            <Label layoutX="198.0" layoutY="468.0" text="Dealer with Longest Average Inventory Time " />
+         </children>
+      </Pane>
+      <ListView fx:id="dealerDollar" layoutX="300.0" layoutY="91.0" prefHeight="51.0" prefWidth="200.0" />
+      <ListView fx:id="brandDollar" layoutX="300.0" layoutY="20.0" prefHeight="51.0" prefWidth="200.0" />
+      <ListView fx:id="brandUnit" layoutX="300.0" layoutY="159.0" prefHeight="58.0" prefWidth="200.0" />
+      <ListView fx:id="convertMonth" layoutX="300.0" layoutY="234.0" prefHeight="58.0" prefWidth="200.0" />
+      <ListView fx:id="inventory" layoutX="300.0" layoutY="310.0" prefHeight="58.0" prefWidth="200.0" />
+      <Button fx:id="run" layoutX="491.0" layoutY="399.0" mnemonicParsing="false" onAction="#processRun" text="Run" />
+      <Label layoutX="780.0" layoutY="20.0" text="Sales Trends" />
+      <ListView fx:id="yearTrend" layoutX="587.0" layoutY="76.0" onEditStart="#processRun" prefHeight="292.0" prefWidth="95.0" />
+      <ListView fx:id="gender" layoutX="683.0" layoutY="76.0" onEditStart="#processRun" prefHeight="292.0" prefWidth="95.0" />
+      <ListView fx:id="incomeRange" layoutX="778.0" layoutY="76.0" onEditStart="#processRun" prefHeight="292.0" prefWidth="138.0" />
+      <ListView fx:id="totalSoldprice" layoutX="916.0" layoutY="76.0" onEditStart="#processRun" prefHeight="292.0" prefWidth="109.0" />
+      <Label layoutX="621.0" layoutY="46.0" text="Year" />
+      <Label layoutX="717.0" layoutY="46.0" text="Gender" />
+      <Label layoutX="808.0" layoutY="46.0" text="Income Range" />
+      <Label layoutX="936.0" layoutY="46.0" text="Total Sales" />
+      <Button fx:id="quit" layoutX="549.0" layoutY="399.0" mnemonicParsing="false" onAction="#processQuit" text="Quit" />
+   </children>
+</AnchorPane>
